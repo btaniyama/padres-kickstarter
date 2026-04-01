@@ -9,12 +9,8 @@ import { cn } from "@/lib/cn";
 
 const REWARDS = [
   {
-    tier: "$0 — Moral support",
-    body: "You believed in us before community tallies were cool.",
-  },
-  {
     tier: "$25 — Digital high five",
-    body: "Delivered as a Reddit reply that says “o7”.",
+    body: "Twenty-five dollars? How are you poor with fake money?",
   },
   {
     tier: "$100 — Name a seat (simulated)",
