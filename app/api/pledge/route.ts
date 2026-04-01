@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { NO_STORE_JSON_HEADERS } from "@/lib/api-cache-headers";
 import { MAX_PLEDGE_DOLLARS } from "@/lib/constants";
 import { getPledgeRatelimit } from "@/lib/ratelimit";
 import { addPledge, normalizeComment } from "@/lib/stats";
@@ -72,7 +73,7 @@ export async function POST(req: Request) {
 
   try {
     const stats = await addPledge(amountCents, commentResult.value);
-    return NextResponse.json(stats);
+    return NextResponse.json(stats, { headers: NO_STORE_JSON_HEADERS });
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Failed to record pledge" }, { status: 500 });

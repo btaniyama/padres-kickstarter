@@ -27,7 +27,10 @@ export function CampaignStatsProvider({ children }: { children: ReactNode }) {
   const [loadError, setLoadError] = useState<string | null>(null);
 
   const loadStats = useCallback(async () => {
-    const res = await fetch("/api/stats", { cache: "no-store" });
+    const res = await fetch(`/api/stats?t=${Date.now()}`, {
+      cache: "no-store",
+      headers: { "Cache-Control": "no-cache" },
+    });
     if (!res.ok) throw new Error("Failed to load");
     const data = (await res.json()) as CampaignStats;
     setStats(data);
