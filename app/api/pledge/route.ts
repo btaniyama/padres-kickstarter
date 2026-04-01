@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { NO_STORE_JSON_HEADERS } from "@/lib/api-cache-headers";
 import { MAX_PLEDGE_DOLLARS } from "@/lib/constants";
+import { isPledgeWindowOpen } from "@/lib/pledge-deadline";
 import { getPledgeRatelimit } from "@/lib/ratelimit";
 import { addPledge, normalizeComment } from "@/lib/stats";
 
@@ -15,6 +16,13 @@ function clientIp(req: Request): string {
 }
 
 export async function POST(req: Request) {
+  if (!isPledgeWindowOpen()) {
+    return NextResponse.json(
+      { error: "Pledging has closed." },
+      { status: 403, headers: NO_STORE_JSON_HEADERS },
+    );
+  }
+
   const limiter = getPledgeRatelimit();
   if (limiter) {
     const { success } = await limiter.limit(clientIp(req));
@@ -75,6 +83,12 @@ export async function POST(req: Request) {
     const stats = await addPledge(amountCents, commentResult.value);
     return NextResponse.json(stats, { headers: NO_STORE_JSON_HEADERS });
   } catch (e) {
+    if (e instanceof Error && e.message === "PLEDGE_CLOSED") {
+      return NextResponse.json(
+        { error: "Pledging has closed." },
+        { status: 403, headers: NO_STORE_JSON_HEADERS },
+      );
+    }
     console.error(e);
     return NextResponse.json({ error: "Failed to record pledge" }, { status: 500 });
   }

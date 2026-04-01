@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { CampaignStatsProvider } from "@/components/CampaignStatsProvider";
+import { PledgeCountdown } from "@/components/PledgeCountdown";
 import { PledgeFeed } from "@/components/PledgeFeed";
 import { PledgePanel } from "@/components/PledgePanel";
 import { StretchGoals } from "@/components/StretchGoals";
@@ -157,6 +158,7 @@ export default function Home() {
                   </dd>
                 </div>
               </dl>
+              <PledgeCountdown variant="hero" />
             </div>
           </section>
         </div>

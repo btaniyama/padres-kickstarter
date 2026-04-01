@@ -5,6 +5,7 @@ import {
   REDIS_KEYS,
 } from "./constants";
 import type { CampaignStats, PledgeEntry } from "./campaign-types";
+import { isPledgeWindowOpen, pledgeWindowMeta } from "./pledge-deadline";
 import { redis } from "./redis";
 
 export type { CampaignStats, PledgeEntry } from "./campaign-types";
@@ -65,8 +66,9 @@ async function loadRecentPledges(): Promise<PledgeEntry[]> {
 
 export async function getStats(): Promise<StatsWithPledges> {
   const recentPledges = await loadRecentPledges();
+  const window = pledgeWindowMeta();
   if (!redis) {
-    return { ...memory, recentPledges };
+    return { ...memory, recentPledges, ...window };
   }
   const [totalRaw, backerRaw] = await Promise.all([
     redis.get<string | number>(REDIS_KEYS.totalCents),
@@ -74,7 +76,13 @@ export async function getStats(): Promise<StatsWithPledges> {
   ]);
   const totalCents = Number(totalRaw ?? 0);
   const backerCount = Number(backerRaw ?? 0);
-  return { totalCents, backerCount, goalCents: GOAL_CENTS, recentPledges };
+  return {
+    totalCents,
+    backerCount,
+    goalCents: GOAL_CENTS,
+    recentPledges,
+    ...window,
+  };
 }
 
 export function normalizeComment(raw: unknown): { ok: true; value: string } | { ok: false; error: string } {
@@ -98,6 +106,9 @@ export async function addPledge(
   amountCents: number,
   comment: string,
 ): Promise<StatsWithPledges> {
+  if (!isPledgeWindowOpen()) {
+    throw new Error("PLEDGE_CLOSED");
+  }
   const entry: PledgeEntry = {
     amountCents,
     comment,

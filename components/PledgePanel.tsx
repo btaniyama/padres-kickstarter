@@ -7,13 +7,19 @@ import {
   MAGIC_WORD_PLEDGE_DOLLARS,
 } from "@/lib/constants";
 import { formatUsdFromCents, percentFunded, percentOfGoal } from "@/lib/format";
+import { PLEDGE_DEADLINE_MS } from "@/lib/pledge-deadline";
+import { usePledgeClock } from "@/hooks/use-pledge-clock";
 import { useCampaignStats } from "./CampaignStatsProvider";
 import { MagicWordModal } from "./MagicWordModal";
+import { PledgeCountdown } from "./PledgeCountdown";
 
 const PRESETS = [25, 100, 500, 5000] as const;
 
 export function PledgePanel() {
   const { stats, loadError, setStats } = useCampaignStats();
+  const now = usePledgeClock();
+  const deadlineMs = stats?.pledgeDeadlineMs ?? PLEDGE_DEADLINE_MS;
+  const pledgeWindowOpen = now < deadlineMs;
   const [amountDollars, setAmountDollars] = useState("100");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,6 +36,10 @@ export function PledgePanel() {
     e.preventDefault();
     setError(null);
     setSuccess(false);
+    if (!pledgeWindowOpen) {
+      setError("Pledging has closed.");
+      return;
+    }
     const dollars = Number.parseFloat(amountDollars.replace(/,/g, ""));
     if (!Number.isFinite(dollars) || dollars <= 0) {
       setError("Enter a positive amount.");
@@ -62,6 +72,8 @@ export function PledgePanel() {
         backerCount: data.backerCount,
         goalCents: data.goalCents,
         recentPledges: data.recentPledges ?? [],
+        pledgeDeadlineMs: data.pledgeDeadlineMs,
+        pledgeWindowOpen: data.pledgeWindowOpen,
       });
       setSuccess(true);
       setComment("");
@@ -136,95 +148,111 @@ export function PledgePanel() {
           </div>
         </div>
 
-        <form onSubmit={onSubmit} className="mt-6 space-y-4">
-          <div>
-            <label
-              htmlFor="pledge-amount"
-              className="mb-2 block text-[13px] font-medium text-stone-700"
-            >
-              Amount (USD)
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {PRESETS.map((n) => (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => setAmountDollars(String(n))}
-                  className="rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-800 shadow-sm transition hover:border-stone-300 hover:bg-stone-50"
-                >
-                  ${n.toLocaleString()}
-                </button>
-              ))}
-              <button
-                type="button"
-                onClick={() =>
-                  setAmountDollars(String(MAGIC_WORD_PLEDGE_DOLLARS))
-                }
-                title="What could go wrong?"
-                className="rounded-lg border border-amber-300/80 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-950 shadow-sm transition hover:border-amber-400 hover:bg-amber-100"
+        <div className="mt-5">
+          <PledgeCountdown variant="panel" />
+        </div>
+
+        {pledgeWindowOpen ? (
+          <form onSubmit={onSubmit} className="mt-6 space-y-4">
+            <div>
+              <label
+                htmlFor="pledge-amount"
+                className="mb-2 block text-[13px] font-medium text-stone-700"
               >
-                $1B
-              </button>
+                Amount (USD)
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {PRESETS.map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => setAmountDollars(String(n))}
+                    className="rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-800 shadow-sm transition hover:border-stone-300 hover:bg-stone-50"
+                  >
+                    ${n.toLocaleString()}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setAmountDollars(String(MAGIC_WORD_PLEDGE_DOLLARS))
+                  }
+                  title="What could go wrong?"
+                  className="rounded-lg border border-amber-300/80 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-950 shadow-sm transition hover:border-amber-400 hover:bg-amber-100"
+                >
+                  $1B
+                </button>
+              </div>
+              <div className="mt-3 flex max-w-full items-center gap-2 sm:max-w-xs">
+                <span className="text-stone-500" aria-hidden>
+                  $
+                </span>
+                <input
+                  id="pledge-amount"
+                  type="text"
+                  inputMode="decimal"
+                  value={amountDollars}
+                  onChange={(e) => setAmountDollars(e.target.value)}
+                  className="min-w-0 flex-1 rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-[15px] text-stone-900 shadow-sm outline-none ring-padres-gold/40 transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-2"
+                  placeholder="100"
+                />
+              </div>
             </div>
-            <div className="mt-3 flex max-w-full items-center gap-2 sm:max-w-xs">
-              <span className="text-stone-500" aria-hidden>
-                $
-              </span>
-              <input
-                id="pledge-amount"
-                type="text"
-                inputMode="decimal"
-                value={amountDollars}
-                onChange={(e) => setAmountDollars(e.target.value)}
-                className="min-w-0 flex-1 rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-[15px] text-stone-900 shadow-sm outline-none ring-padres-gold/40 transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-2"
-                placeholder="100"
+
+            <div>
+              <label
+                htmlFor="pledge-comment"
+                className="mb-2 block text-[13px] font-medium text-stone-700"
+              >
+                Comment{" "}
+                <span className="font-normal text-stone-500">(required)</span>
+              </label>
+              <textarea
+                id="pledge-comment"
+                required
+                rows={3}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                maxLength={500}
+                placeholder="Say something for the wall…"
+                className="w-full resize-y rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-[15px] leading-relaxed text-stone-900 shadow-sm outline-none ring-padres-gold/40 transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-2"
               />
+              <p className="mt-1.5 text-xs text-stone-500">
+                {comment.length}/500
+              </p>
             </div>
-          </div>
 
-          <div>
-            <label
-              htmlFor="pledge-comment"
-              className="mb-2 block text-[13px] font-medium text-stone-700"
+            {error ? (
+              <p className="text-sm text-red-700" role="alert">
+                {error}
+              </p>
+            ) : null}
+            {success ? (
+              <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-900">
+                Pledge recorded. You&apos;re on the board.
+              </p>
+            ) : null}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex h-12 w-full items-center justify-center rounded-lg bg-padres-gold text-[15px] font-semibold text-stone-900 shadow-sm transition hover:bg-padres-gold-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900 disabled:opacity-50"
             >
-              Comment{" "}
-              <span className="font-normal text-stone-500">(required)</span>
-            </label>
-            <textarea
-              id="pledge-comment"
-              required
-              rows={3}
-              value={comment}
-              onChange={(e) => setComment(e.target.value)}
-              maxLength={500}
-              placeholder="Say something for the wall…"
-              className="w-full resize-y rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-[15px] leading-relaxed text-stone-900 shadow-sm outline-none ring-padres-gold/40 transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-2"
-            />
-            <p className="mt-1.5 text-xs text-stone-500">{comment.length}/500</p>
-          </div>
-
-          {error ? (
-            <p className="text-sm text-red-700" role="alert">
-              {error}
+              {loading ? "Recording…" : "Pledge now"}
+            </button>
+            <p className="text-center text-[12px] leading-relaxed text-stone-500">
+              No payment processed here—pledge is symbolic.
             </p>
-          ) : null}
-          {success ? (
-            <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-900">
-              Pledge recorded. You&apos;re on the board.
-            </p>
-          ) : null}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex h-12 w-full items-center justify-center rounded-lg bg-padres-gold text-[15px] font-semibold text-stone-900 shadow-sm transition hover:bg-padres-gold-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900 disabled:opacity-50"
+          </form>
+        ) : (
+          <p
+            className="mt-6 rounded-lg border border-stone-200 bg-stone-50 px-4 py-3 text-sm leading-relaxed text-stone-700"
+            role="status"
           >
-            {loading ? "Recording…" : "Pledge now"}
-          </button>
-          <p className="text-center text-[12px] leading-relaxed text-stone-500">
-            No payment processed here—pledge is symbolic.
+            Pledging closed at midnight Pacific on April 2, 2026. Totals above
+            stay for the record.
           </p>
-        </form>
+        )}
       </div>
 
       <MagicWordModal
