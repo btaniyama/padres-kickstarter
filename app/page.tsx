@@ -132,7 +132,7 @@ export default function Home() {
                 <div>
                   <dt className="text-stone-500">Funding goal</dt>
                   <dd className="mt-0.5 font-medium tabular-nums text-stone-900">
-                    $3,000,000,000
+                    $3,500,000,000
                   </dd>
                   <dd className="text-xs text-stone-500">fake USD · parody</dd>
                 </div>
