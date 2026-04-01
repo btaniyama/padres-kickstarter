@@ -24,15 +24,25 @@ const memory: Stats = {
 
 const memoryPledges: PledgeEntry[] = [];
 
-function parsePledgeLine(raw: string): PledgeEntry | null {
+/**
+ * Upstash deserializes list values to objects; in-memory path uses plain objects.
+ * Only raw Redis strings need JSON.parse.
+ */
+function parsePledgeLine(raw: unknown): PledgeEntry | null {
   try {
-    const p = JSON.parse(raw) as PledgeEntry;
+    const p: unknown =
+      typeof raw === "string" ? (JSON.parse(raw) as unknown) : raw;
     if (
-      typeof p.amountCents === "number" &&
-      typeof p.comment === "string" &&
-      typeof p.createdAt === "number"
+      p !== null &&
+      typeof p === "object" &&
+      "amountCents" in p &&
+      "comment" in p &&
+      "createdAt" in p &&
+      typeof (p as PledgeEntry).amountCents === "number" &&
+      typeof (p as PledgeEntry).comment === "string" &&
+      typeof (p as PledgeEntry).createdAt === "number"
     ) {
-      return p;
+      return p as PledgeEntry;
     }
   } catch {
     /* skip */
