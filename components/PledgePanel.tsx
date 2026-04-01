@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { CampaignStats } from "@/lib/campaign-types";
 import {
   MAGIC_WORD_PLEDGE_CENTS,
@@ -20,12 +20,13 @@ export function PledgePanel() {
   const now = usePledgeClock();
   const deadlineMs = stats?.pledgeDeadlineMs ?? PLEDGE_DEADLINE_MS;
   const pledgeWindowOpen = now < deadlineMs;
-  const [amountDollars, setAmountDollars] = useState("100");
+  const [amountDollars, setAmountDollars] = useState("5000");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [magicWordOpen, setMagicWordOpen] = useState(false);
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   const pctBar =
     stats !== null ? percentFunded(stats.totalCents, stats.goalCents) : 0;
@@ -174,6 +175,18 @@ export function PledgePanel() {
                 ))}
                 <button
                   type="button"
+                  onClick={() => {
+                    const el = amountInputRef.current;
+                    el?.focus();
+                    el?.select();
+                  }}
+                  title="Type any dollar amount in the field below"
+                  className="rounded-lg border border-dashed border-stone-400 bg-white px-3 py-2 text-sm font-semibold text-stone-700 shadow-sm transition hover:border-padres-gold/70 hover:bg-amber-50/60"
+                >
+                  Custom amount
+                </button>
+                <button
+                  type="button"
                   onClick={() =>
                     setAmountDollars(String(MAGIC_WORD_PLEDGE_DOLLARS))
                   }
@@ -188,15 +201,24 @@ export function PledgePanel() {
                   $
                 </span>
                 <input
+                  ref={amountInputRef}
                   id="pledge-amount"
                   type="text"
                   inputMode="decimal"
                   value={amountDollars}
                   onChange={(e) => setAmountDollars(e.target.value)}
                   className="min-w-0 flex-1 rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-[15px] text-stone-900 shadow-sm outline-none ring-padres-gold/40 transition placeholder:text-stone-400 focus:border-stone-400 focus:ring-2"
-                  placeholder="100"
+                  placeholder="5000"
+                  aria-describedby="pledge-amount-hint"
                 />
               </div>
+              <p
+                id="pledge-amount-hint"
+                className="mt-2 text-[12px] leading-snug text-stone-500"
+              >
+                Not limited to the buttons — type any amount you want (fake
+                money only).
+              </p>
             </div>
 
             <div>
