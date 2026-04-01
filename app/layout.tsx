@@ -18,9 +18,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "r/Padres Community Ownership — April Fools (Parody)",
+  title: "Screw These Billionaires — Let’s Buy the Padres Ourselves | r/Padres",
   description:
-    "A fake crowdfunding page: help r/Padres pretend to buy the team with pretend money. April Fools parody—not affiliated with MLB or Reddit.",
+    "Fan campaign to pool community pledges toward Padres ownership. Not affiliated with MLB, the Padres, or Reddit.",
 };
 
 export default function RootLayout({

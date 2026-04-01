@@ -82,7 +82,7 @@ export function PledgePanel() {
               Back this project
             </p>
             <p className="mt-0.5 text-[13px] text-stone-500">
-              Fake pledge · no checkout
+              Community pledge · no checkout
             </p>
           </div>
         </div>
@@ -142,7 +142,7 @@ export function PledgePanel() {
               htmlFor="pledge-amount"
               className="mb-2 block text-[13px] font-medium text-stone-700"
             >
-              Amount (USD, fake)
+              Amount (USD)
             </label>
             <div className="flex flex-wrap gap-2">
               {PRESETS.map((n) => (
@@ -210,7 +210,7 @@ export function PledgePanel() {
           ) : null}
           {success ? (
             <p className="rounded-lg border border-emerald-200 bg-emerald-50 px-3 py-2.5 text-sm text-emerald-900">
-              Pledge recorded. Your fake dollars are on the board.
+              Pledge recorded. You&apos;re on the board.
             </p>
           ) : null}
 
@@ -222,7 +222,7 @@ export function PledgePanel() {
             {loading ? "Recording…" : "Pledge now"}
           </button>
           <p className="text-center text-[12px] leading-relaxed text-stone-500">
-            No real payments. Parody only.
+            No payment processed here—pledge is symbolic.
           </p>
         </form>
       </div>

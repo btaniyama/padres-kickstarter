@@ -32,7 +32,7 @@ export function PledgeFeed({ className }: { className?: string }) {
           </p>
         </div>
         <p className="mt-1 text-[13px] text-stone-500">
-          Refreshes automatically. Parody only.
+          Refreshes automatically.
         </p>
 
         <div
@@ -41,7 +41,7 @@ export function PledgeFeed({ className }: { className?: string }) {
         >
           {pledges.length === 0 ? (
             <p className="px-3 py-8 text-center text-[14px] text-stone-500">
-              No pledges yet. Be the first fake backer.
+              No pledges yet. Be the first backer.
             </p>
           ) : (
             <ul className="divide-y divide-stone-100 p-0">

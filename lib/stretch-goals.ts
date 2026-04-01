@@ -6,15 +6,15 @@ function overGoalDollars(extra: number): number {
 }
 
 /**
- * Cumulative fake USD raised (in cents) required to unlock each stretch.
- * Base goal first, then +$500M steps; final tier jumps to $10B (parody).
+ * Cumulative USD raised (in cents) required to unlock each stretch.
+ * Base goal first, then +$500M steps; final tier jumps to $10B.
  */
 export const STRETCH_GOALS = [
   {
     id: "sg-0",
     unlockAtCents: GOAL_CENTS,
     title: "WE OWN THE TEAM",
-    body: "We clear the fake bar to pretend the fans bankrolled the franchise. Cap table theater, a trust that sounds legit in a headline, and one laminated badge that says “Owner” for whoever posts the most in game threads.",
+    body: "We clear the bar so it looks like the fans bankrolled the franchise. Cap table theater, a trust that sounds legit in a headline, and one laminated badge that says “Owner” for whoever posts the most in game threads.",
   },
   {
     id: "sg-1",
@@ -51,6 +51,6 @@ export const STRETCH_GOALS = [
     /** $3.5B goal + $6.5B = $10B cumulative (not `overGoalDollars(10e9)` — that would be $13.5B). */
     unlockAtCents: overGoalDollars(6_500_000_000),
     title: "The $10B fork in the road",
-    body: "We buy the Chargers and haul the bolts back to San Diego where they belong—or we buy the Dodgers and dissolve them. Dealer's choice. Parody. Obviously.",
+    body: "We buy the Chargers and haul the bolts back to San Diego where they belong—or we buy the Dodgers and dissolve them. Dealer's choice. Obviously.",
   },
 ] as const;

@@ -1,7 +1,7 @@
 /** Parody fundraising goal: $3.5B in cents */
 export const GOAL_CENTS = 350_000_000_000;
 
-/** Max fake dollars per single pledge ($1M) */
+/** Max dollars per single pledge ($1M) */
 export const MAX_PLEDGE_DOLLARS = 1_000_000;
 
 /** Trap amount: submitting this opens the “magic word” modal instead of posting. */

@@ -11,5 +11,5 @@ export const BILLIONAIRE_JOKES = [
   "According to Forbes you’re… not on this spreadsheet. Weird.",
   "Save it for the Winter Meetings. Actually, don’t—they’d see through this too.",
   "That’s not generational wealth—that’s a typo and a dream.",
-  "If you were a billionaire you wouldn’t be pledging fake dollars on a parody page. You’d be buying a real team. With receipts.",
+  "If you were a billionaire you wouldn’t be typing amounts into a fan page. You’d be buying a real team. With receipts.",
 ] as const;

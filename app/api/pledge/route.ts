@@ -54,7 +54,7 @@ export async function POST(req: Request) {
 
   if (amountCents > MAX_PLEDGE_CENTS) {
     return NextResponse.json(
-      { error: `amountCents cannot exceed ${MAX_PLEDGE_CENTS} ($${MAX_PLEDGE_DOLLARS.toLocaleString()} fake)` },
+      { error: `amountCents cannot exceed ${MAX_PLEDGE_CENTS} ($${MAX_PLEDGE_DOLLARS.toLocaleString()} per pledge)` },
       { status: 400 },
     );
   }

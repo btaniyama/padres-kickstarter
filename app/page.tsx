@@ -9,7 +9,7 @@ import { cn } from "@/lib/cn";
 const REWARDS = [
   {
     tier: "$0 — Moral support",
-    body: "You believed in us before fake money was cool.",
+    body: "You believed in us before community tallies were cool.",
   },
   {
     tier: "$25 — Digital high five",
@@ -99,7 +99,7 @@ export default function Home() {
             Crowdfund<span className="text-padres-gold">ish</span>
           </span>
           <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-medium text-white/85 sm:text-xs">
-            Parody · April Fools
+            r/Padres
           </span>
         </div>
       </header>
@@ -120,26 +120,40 @@ export default function Home() {
                 id="campaign-title"
                 className="font-heading mt-4 max-w-3xl text-balance text-[1.75rem] font-semibold leading-[1.12] tracking-tight text-stone-900 sm:text-4xl sm:leading-[1.1] lg:text-[2.5rem]"
               >
-                Community ownership: the team sale we refuse to lose
+                Screw These Billionaires. Let&apos;s Buy the Padres Ourselves!
               </h1>
-              <p className="mt-6 max-w-2xl text-pretty text-base leading-relaxed text-stone-600 sm:text-lg">
-                The Padres are reportedly for sale. Instead of letting
-                billionaires have all the fun, we&apos;re pooling fake dollars to
-                &quot;buy&quot; the franchise for shitposters, lurkers, and that
-                one guy who only comments in game threads.
-              </p>
+              <div className="mt-6 max-w-2xl space-y-4 text-pretty text-base leading-relaxed text-stone-600 sm:text-lg">
+                <p>
+                  You know what the world needs less of? Billionaires owning
+                  everything.
+                </p>
+                <p>
+                  You know what it needs more of? Weirdos on the internet owning
+                  everything.
+                </p>
+                <p>
+                  You—yes <em>you</em>—now have the chance to own a piece of the
+                  Padres! But we need your help. We&apos;re collecting pledges of
+                  what people will pledge to pledge on a Kickstarter for the
+                  purchase of the Padres.
+                </p>
+                <p className="font-medium text-stone-800">
+                  Scroll down to the pledge form and give us your lunch money,
+                  nerds!
+                </p>
+              </div>
               <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-3 border-t border-stone-100 pt-6 text-sm">
                 <div>
                   <dt className="text-stone-500">Funding goal</dt>
                   <dd className="mt-0.5 font-medium tabular-nums text-stone-900">
                     $3,500,000,000
                   </dd>
-                  <dd className="text-xs text-stone-500">fake USD · parody</dd>
+                  <dd className="text-xs text-stone-500">Community tally · USD</dd>
                 </div>
                 <div>
-                  <dt className="text-stone-500">Currency</dt>
+                  <dt className="text-stone-500">How it works</dt>
                   <dd className="mt-0.5 font-medium text-stone-900">
-                    Pretend money only
+                    Honor-system pledge — no checkout
                   </dd>
                 </div>
               </dl>
@@ -158,10 +172,10 @@ export default function Home() {
                 </h2>
                 <SectionBody className="space-y-3 text-[15px] leading-relaxed text-stone-600 sm:text-base">
                   <p>
-                    For too long, ownership has been decided in boardrooms. We
-                    propose a bolder model: a distributed democracy powered by
-                    Reddit takes, sunset games at Petco, and the sacred belief
-                    that this time the bullpen will hold.
+                    The Padres are reportedly for sale. Instead of another
+                    yacht-class owner, we&apos;re building a case that the fans
+                    should get a shot—starting with a running total and a lot of
+                    extremely serious posts.
                   </p>
                   <p>
                     If we hit our goal, we will… look, we&apos;re not lawyers. We
@@ -224,11 +238,12 @@ export default function Home() {
                   <dl className="space-y-5 text-stone-600">
                     <div>
                       <dt className="text-[15px] font-semibold text-stone-900">
-                        Is this a real Kickstarter?
+                        Is this Kickstarter?
                       </dt>
                       <dd className="mt-2 text-[15px] leading-relaxed">
-                        No. It&apos;s a parody page. There is no crowdfunding
-                        platform behind this and no money changes hands.
+                        It&apos;s a fan-built page with the same energy—not the
+                        Kickstarter platform. Nothing here charges a card; your
+                        pledge updates a shared counter.
                       </dd>
                     </div>
                     <div>
@@ -236,9 +251,8 @@ export default function Home() {
                         Are you affiliated with MLB, the Padres, or Reddit?
                       </dt>
                       <dd className="mt-2 text-[15px] leading-relaxed">
-                        No. This is a fan joke for April Fools. Not affiliated with
-                        Major League Baseball, the San Diego Padres, Reddit, or any
-                        team owner—real, fictional, or suspiciously rich.
+                        No. Fan project only—not affiliated with Major League
+                        Baseball, the San Diego Padres, Reddit, or any team owner.
                       </dd>
                     </div>
                     <div>
@@ -273,8 +287,7 @@ export default function Home() {
       <footer className="mt-auto border-t border-white/10 bg-padres-brown-deep py-8">
         <div className="mx-auto max-w-6xl px-4 text-center sm:px-6">
           <p className="text-sm leading-relaxed text-stone-300">
-            April Fools parody · No real payments · Not affiliated with MLB or
-            the Padres
+            Fan project · Not affiliated with MLB or the Padres
             <span className="mx-2 text-white/35">·</span>
             <span className="whitespace-nowrap text-stone-400">
               © {new Date().getFullYear()}
