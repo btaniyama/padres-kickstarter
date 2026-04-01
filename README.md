@@ -50,7 +50,7 @@ Create a database at [Upstash Console](https://console.upstash.com/) and copy th
 - `GET /api/stats` — `{ totalCents, backerCount, goalCents, recentPledges }`  
   `recentPledges` is an array of `{ amountCents, comment, createdAt }` (newest first, capped at 500).
 - `POST /api/pledge` — body `{ "amountCents": number, "comment": string }`  
-  Comment is required (trimmed, max 500 characters). Max $10M fake per request.
+  Comment is required (trimmed, max 500 characters). Max $50M fake per request.
 
 ## Disclaimer
 
