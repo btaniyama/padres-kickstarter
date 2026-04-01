@@ -24,8 +24,8 @@ const REWARDS = [
     body: "You may suggest one lineup. The simulation will ignore it exactly like real life.",
   },
   {
-    tier: "$5,000 — Banner plane (imaginary)",
-    body: "We will think really hard about a flyover during the seventh-inning stretch.",
+    tier: "$5,000 — Hug from Padres legend Wil Myers",
+    body: "One (1) sincere hug from Wil Myers, subject to scheduling, physics, and whether he remembers signing up for this. Emotional support may be substituted for actual contact in the simulation.",
   },
   {
     tier: `$${MAGIC_WORD_PLEDGE_DOLLARS.toLocaleString("en-US")} — Billionaire tier`,
