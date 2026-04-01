@@ -38,7 +38,7 @@ export const STRETCH_GOALS = [
     id: "sg-4",
     unlockAtCents: overGoalDollars(2_000_000_000),
     title: "Trolley to third; Manny with a Stone IPA",
-    body: "We extend the trolley so it drops you off directly at third base like you’re late for a meeting with destiny. Manny Machado personally greets you with a Stone IPA—cold, confident, and technically not part of any CBA we’ve read.",
+    body: "We extend the trolley so it drops you off directly at third base.. Manny Machado personally greets you with a Stone IPA—cold, confident, and technically not part of any CBA we’ve read.",
   },
   {
     id: "sg-5",
@@ -48,8 +48,9 @@ export const STRETCH_GOALS = [
   },
   {
     id: "sg-6",
+    /** $3.5B goal + $6.5B = $10B cumulative (not `overGoalDollars(10e9)` — that would be $13.5B). */
     unlockAtCents: overGoalDollars(6_500_000_000),
     title: "The $10B fork in the road",
-    body: "Dealer’s choice: we buy the Chargers and haul the bolts back to San Diego where they belong—or we buy the Dodgers and dissolve them like a sugar cube in a pint of Stone. Either way, the group chat will never recover. Parody. Obviously.",
+    body: "We buy the Chargers and haul the bolts back to San Diego where they belong—or we buy the Dodgers and dissolve them. Dealer's choice. Parody. Obviously.",
   },
 ] as const;
