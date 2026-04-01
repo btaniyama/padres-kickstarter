@@ -25,7 +25,7 @@ const REWARDS = [
   },
   {
     tier: "$5,000 — Hug from Padres legend Wil Myers",
-    body: "One (1) sincere hug from Wil Myers, subject to scheduling, physics, and whether he remembers signing up for this. Emotional support may be substituted for actual contact in the simulation.",
+    body: "One (1) sincere hug from Wil Myers, subject to scheduling, physics, and whether he remembers signing up for this.",
   },
   {
     tier: `$${MAGIC_WORD_PLEDGE_DOLLARS.toLocaleString("en-US")} — Billionaire tier`,
