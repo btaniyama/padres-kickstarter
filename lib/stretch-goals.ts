@@ -1,13 +1,13 @@
 import { GOAL_CENTS } from "./constants";
 
-/** Dollars above the headline goal (each step is +$500M). */
+/** Extra dollars on top of headline goal (absolute total = GOAL + extra). */
 function overGoalDollars(extra: number): number {
   return GOAL_CENTS + Math.round(extra * 100);
 }
 
 /**
  * Cumulative fake USD raised (in cents) required to unlock each stretch.
- * Base goal first, then every +$500M (owner-bucket tone, parody).
+ * Base goal first, then +$500M steps; final tier jumps to $10B (parody).
  */
 export const STRETCH_GOALS = [
   {
@@ -19,31 +19,37 @@ export const STRETCH_GOALS = [
   {
     id: "sg-1",
     unlockAtCents: overGoalDollars(500_000_000),
-    title: "Petco, but make it obnoxious (in a good way)",
-    body: "Mist fans, shorter beer lines, and club access where you can actually hear yourself think before the eighth. If we’re going to stress about leverage counts, we’ll do it somewhere with air conditioning.",
+    title: "The great California burrito wall",
+    body: "Every section at Petco gets a dedicated California burrito stand—guac ethics committee on retainer, foil-to-hand ratio optimized, and a gentle rule that you may not return to your seat until you’ve made at least one questionable hot-sauce decision.",
   },
   {
     id: "sg-2",
     unlockAtCents: overGoalDollars(1_000_000_000),
-    title: "The “we’re not rebuilding” fund",
-    body: "Payroll runway to keep the core, shop in the deep end of free agency, and sign the guy whose agent sends texts that make the NL West group chat go quiet.",
+    title: "Project Cyborg Elbow (simulated)",
+    body: "We invest heavily in extremely fictional bionic-arm R&D. Yu Darvish now throws an entirely unreasonable 110 mph in this timeline. MLB has questions. We have a PDF that says “fan engagement.”",
   },
   {
     id: "sg-3",
     unlockAtCents: overGoalDollars(1_500_000_000),
-    title: "Teenagers who throw smoke (legally)",
-    body: "Instructional league, international bonus pool oxygen, and a performance staff obsessed with spin and sleep. Boring on a spreadsheet, rude on a radar gun.",
+    title: "NLBest™ — jersey sponsor of destiny",
+    body: "The NL West is dead; long live NLBest™—our new chest-patch energy drink / lifestyle brand / coping mechanism. Not affiliated with reality, nutrition, or anyone who understands trademarks.",
   },
   {
     id: "sg-4",
     unlockAtCents: overGoalDollars(2_000_000_000),
-    title: "West Coast afterparty budget",
-    body: "Extra juice for marquee home stands, travel that doesn’t feel like a layover, and the kind of schedule leverage you only get when the league office actually picks up.",
+    title: "Trolley to third; Manny with a Stone IPA",
+    body: "We extend the trolley so it drops you off directly at third base like you’re late for a meeting with destiny. Manny Machado personally greets you with a Stone IPA—cold, confident, and technically not part of any CBA we’ve read.",
   },
   {
     id: "sg-5",
     unlockAtCents: overGoalDollars(2_500_000_000),
-    title: "Commissioner speed‑dial energy",
-    body: "All‑Star Game ammo, league dinners where nobody orders salad on purpose, and enough goodwill that when the next pace‑of‑play brainstorm happens, our time zone gets a seat at the table.",
+    title: "Rey Mysterio Jr. night… forever",
+    body: "All players must wear Rey Mysterio Jr. masks for the full nine. Umpires pretend not to notice. Broadcast adds lucha commentary. The Friar finally feels seen.",
+  },
+  {
+    id: "sg-6",
+    unlockAtCents: overGoalDollars(6_500_000_000),
+    title: "The $10B fork in the road",
+    body: "Dealer’s choice: we buy the Chargers and haul the bolts back to San Diego where they belong—or we buy the Dodgers and dissolve them like a sugar cube in a pint of Stone. Either way, the group chat will never recover. Parody. Obviously.",
   },
 ] as const;
