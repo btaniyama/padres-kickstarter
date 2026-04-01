@@ -1,26 +1,39 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Padres-style brown — page canvas */
+  --padres-brown: #2f241d;
+  --padres-brown-deep: #1a1410;
+  --padres-brown-mid: #5c4f42;
+  --padres-gold: #ffc425;
+  --padres-gold-hover: #e6ac00;
+  --canvas: var(--padres-brown);
+  --surface: #ffffff;
+  /* Default reading color on light surfaces; use text-white on brown areas */
+  --foreground: #1c1917;
 }
 
 @theme inline {
-  --color-background: var(--background);
+  --color-background: var(--canvas);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-padres-brown: var(--padres-brown);
+  --color-padres-brown-deep: var(--padres-brown-deep);
+  --color-padres-brown-mid: var(--padres-brown-mid);
+  --color-padres-gold: var(--padres-gold);
+  --color-padres-gold-hover: var(--padres-gold-hover);
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-fraunces), ui-serif, Georgia, "Times New Roman",
+    serif;
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+body {
+  background: var(--canvas);
+  color: var(--foreground);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+::selection {
+  background-color: rgba(255, 196, 37, 0.35);
 }

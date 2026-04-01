@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fake Kickstarter — r/Padres “buy the team” (April Fools parody)
 
-## Getting Started
+A joke crowdfunding-style page: visitors pledge **fake money** with no login. Totals are stored server-side so everyone sees the same running amount (when Redis is configured).
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Without Upstash env vars, pledges use a **per-process in-memory counter** (resets on server restart). For a **shared total** across visitors and deploys, add Redis (see below).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Production: Vercel + Upstash
 
-## Learn More
+### Option A — GitHub (recommended)
 
-To learn more about Next.js, take a look at the following resources:
+1. Push this repo to GitHub (if it isn’t already).
+2. Go to [vercel.com/new](https://vercel.com/new), sign in with GitHub, and **Import** the repository. Vercel auto-detects Next.js — leave defaults and click **Deploy**.
+3. **Environment variables** (so shared pledge totals work in production): **Project → Settings → Environment Variables** → add for **Production** (and Preview if you want):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   - `UPSTASH_REDIS_REST_URL` — from Upstash (REST URL)
+   - `UPSTASH_REDIS_REST_TOKEN` — from Upstash (REST token)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Redeploy** after saving env vars: **Deployments → … → Redeploy** (or push a new commit).
 
-## Deploy on Vercel
+### Option B — Vercel CLI
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm i -g vercel   # or: npx vercel
+vercel login
+vercel            # link project, then deploy
+vercel --prod     # production URL
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Set the same two env vars in the Vercel dashboard or with `vercel env add`.
+
+### Upstash Redis
+
+Create a database at [Upstash Console](https://console.upstash.com/) and copy the **REST** URL and token (not the TCP URL). Without them, pledge totals reset on serverless cold starts.
+
+### Optional
+
+**Rate limiting** on `POST /api/pledge` uses the same Redis instance (30 pledges per minute per IP).
+
+## API
+
+- `GET /api/stats` — `{ totalCents, backerCount, goalCents, recentPledges }`  
+  `recentPledges` is an array of `{ amountCents, comment, createdAt }` (newest first, capped at 500).
+- `POST /api/pledge` — body `{ "amountCents": number, "comment": string }`  
+  Comment is required (trimmed, max 500 characters). Max $1M fake per request.
+
+## Disclaimer
+
+This is a parody. Not affiliated with MLB, the San Diego Padres, Reddit, or any league or team. No real payments are collected.
